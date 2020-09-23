@@ -19,6 +19,7 @@
 #include "rtcwork.h"
 #include "LowPower.h"
 #include "FlashWork.h"
+#include "Battery.h"
 
 #define DBG_TAG "main"
 #define DBG_LVL DBG_LOG
@@ -26,16 +27,17 @@
 
 int main(void)
 {
-    Flash_Init();
+    flash_Init();
     fal_init();
     easyflash_init();
     boot_time();
-    //RTC_Init();
+    RTC_Init();
     Led_Init();
     button();
     adc_init();
     lcd();
     Moto_TaskUp();
+    BatterWatcher();
     while (1)
     {
         //EnterLowPower();

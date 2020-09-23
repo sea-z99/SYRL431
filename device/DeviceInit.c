@@ -29,7 +29,7 @@ extern uint8_t Setting_Deltapress; //0:Report only  1:Automatic
 extern uint8_t Deltapress_Enable;//0:close   1:open
 extern uint16_t Counter_Deltapress;
 
-#define DBG_TAG "Button"
+#define DBG_TAG "DeviceInfo"
 #define DBG_LVL DBG_LOG
 #include <rtdbg.h>
 
@@ -58,7 +58,7 @@ void K0_Sem_Release(void *parameter)
 {
 	OpenLcdDisplay();
 	ScreenTimerRefresh();
-	LOG_D("Back Key is Press\r\n");
+	LOG_D("Up Key is Press\r\n");
 	if(LCD_Flag==0)
 	{
 		rt_sem_release(K0_Sem);
@@ -136,12 +136,12 @@ void LcdBacklightTimerCallback(void *parameter)
 }
 void SreenTimerInit(void)
 {
-    Screen_Backlight_Timer=rt_timer_create("Lcd_Backlight_Timer",LcdBacklightTimerCallback,RT_NULL,50*1000,RT_TIMER_FLAG_ONE_SHOT|RT_TIMER_FLAG_SOFT_TIMER);
+    Screen_Backlight_Timer=rt_timer_create("Lcd_Backlight_Timer",LcdBacklightTimerCallback,RT_NULL,30*1000,RT_TIMER_FLAG_ONE_SHOT|RT_TIMER_FLAG_SOFT_TIMER);
     if(Screen_Backlight_Timer!=RT_NULL)
     {
         rt_timer_start(Screen_Backlight_Timer);
     }
-    Screen_Vcc_Timer=rt_timer_create("Lcd_Vcc_Timer",LcdVccTimerCallback,RT_NULL,100*1000,RT_TIMER_FLAG_ONE_SHOT|RT_TIMER_FLAG_SOFT_TIMER);
+    Screen_Vcc_Timer=rt_timer_create("Lcd_Vcc_Timer",LcdVccTimerCallback,RT_NULL,60*1000,RT_TIMER_FLAG_ONE_SHOT|RT_TIMER_FLAG_SOFT_TIMER);
     if(Screen_Vcc_Timer!=RT_NULL)
     {
         rt_timer_start(Screen_Vcc_Timer);
@@ -177,19 +177,32 @@ void Led_DeInit(void)
 }
 void Green_Light(void)
 {
+    Red_Off();
     rt_pin_write(LED_G_PIN,0);
 }
+MSH_CMD_EXPORT(Green_Light,Green_Light);
 void Green_Off(void)
 {
     rt_pin_write(LED_G_PIN,1);
 }
 void Red_Light(void)
 {
+    Green_Off();
     rt_pin_write(LED_R_PIN,0);
 }
+MSH_CMD_EXPORT(Red_Light,Red_Light);
 void Red_Off(void)
 {
     rt_pin_write(LED_R_PIN,1);
+}
+void Blue_Light(void)
+{
+    rt_pin_write(LED_B_PIN,0);
+}
+MSH_CMD_EXPORT(Blue_Light,Blue_Light);
+void Blue_Off(void)
+{
+    rt_pin_write(LED_B_PIN,1);
 }
 void Delta_press(void *parameter)
 {
@@ -262,3 +275,5 @@ void delta_test(void)
     rt_kprintf("Delta is %d\r\n",rt_pin_read(65));
 }
 MSH_CMD_EXPORT(delta_test,delta_test)
+
+

@@ -127,25 +127,25 @@ extern void RTC_Alarm_IRQHandler(void);
 void LowPowerTimerStart(void);
 void EnterLowPower(void)
 {
-//    BeforSleep();
-//    Button_Wakeup_Flag=0;
-//    LOG_D("Goto Stop Mode With RTC Now\r\n");
-//    HAL_PWREx_EnterSTOP2Mode(PWR_STOPENTRY_WFI);
-//    SystemClock_Config();
-//    if(Button_Wakeup_Flag)
-//    {
-//        AfterWake();
-//        LOG_D("Button Wake Up Now\r\n");
-//    }
-//    else
-//    {
-//        AfterWake();
-//        LOG_D("RTC Wake Up Now\r\n");
-//        //RTC_Timer_Entry();
-//        //RTC_Check();
-//        //EnterLowPower();
-//        //LowPowerTimerStart();
-//    }
+    BeforSleep();
+    Button_Wakeup_Flag=0;
+    LOG_D("Goto Stop Mode With RTC Now\r\n");
+    HAL_PWREx_EnterSTOP2Mode(PWR_STOPENTRY_WFI);
+    SystemClock_Config();
+    if(Button_Wakeup_Flag)
+    {
+        AfterWake();
+        LOG_D("Button Wake Up Now\r\n");
+    }
+    else
+    {
+        AfterWake();
+        LOG_D("RTC Wake Up Now\r\n");
+        //RTC_Timer_Entry();
+        //RTC_Check();
+        //EnterLowPower();
+        //LowPowerTimerStart();
+    }
 }
 MSH_CMD_EXPORT(EnterLowPower,EnterLowPower);
 rt_timer_t LowPowerTimer=RT_NULL;

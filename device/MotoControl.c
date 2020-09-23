@@ -17,6 +17,9 @@ uint8_t MotoWorkFlag=0;
 #include <rtdbg.h>
 
 extern uint16_t Setting_Backwashtime;
+extern uint8_t LowVoltageFlag;
+extern uint32_t RTC_Reminder_Time ;
+extern uint32_t RTC_Automatic_Time;
 
 void Moto_Cycle_Timer_Callback(void *parameter)
 {
@@ -30,7 +33,7 @@ void Moto_Cycle_Timer_Callback(void *parameter)
         LOG_D("No Moto,Start to Free\r\n");
         rt_event_send(&Moto_Event, Event_Moto_Free);
         ScreenTimerRefresh();
-        jumpb();
+        jumpd();
     }
 }
 void Moto_Pin_Init(void)
@@ -51,10 +54,6 @@ void Moto_Pin_DeInit(void)
 {
     rt_pin_mode(MOTO_VCC, PIN_MODE_OUTPUT);
     rt_pin_write(MOTO_VCC,0);
-//    rt_pin_mode(MOTO_LEFT, PIN_MODE_OUTPUT);
-//    rt_pin_write(MOTO_LEFT,0);
-//    rt_pin_mode(MOTO_RIGHT, PIN_MODE_OUTPUT);
-//    rt_pin_write(MOTO_RIGHT,0);
 }
 void Moto_Init(void)
 {
@@ -78,22 +77,34 @@ void moto_stop(void)
 		rt_event_send(&Moto_Event, Event_Moto_Free);
 }
 MSH_CMD_EXPORT(moto_stop,moto_stop);
+
 void Moto_Cycle(void)
 {
-    if(MotoWorkFlag == 0)
+    RTC_Reminder_Time = 0;
+    RTC_Automatic_Time = 0;
+    if(LowVoltageFlag==0)
     {
-        ScreenTimerStop();
-        uint32_t Setting_Backwashtime_MileSecond=0;
-        rt_event_send(&Moto_Event, Event_Moto_Forward);
-        Setting_Backwashtime_MileSecond = Setting_Backwashtime*1000;
-        rt_timer_control(Moto_Cycle_Timer,RT_TIMER_CTRL_SET_TIME,&Setting_Backwashtime_MileSecond);
-        LOG_D("Start Backwash with Timer %d\r\n",Setting_Backwashtime);
-        rt_timer_start(Moto_Cycle_Timer);
-        Green_Light();
+        if(MotoWorkFlag == 0)
+        {
+            ScreenTimerStop();
+            uint32_t Setting_Backwashtime_MileSecond=0;
+            rt_event_send(&Moto_Event, Event_Moto_Forward);
+            Setting_Backwashtime_MileSecond = Setting_Backwashtime*1000;
+            rt_timer_control(Moto_Cycle_Timer,RT_TIMER_CTRL_SET_TIME,&Setting_Backwashtime_MileSecond);
+            LOG_D("Start Backwash with Timer %d\r\n",Setting_Backwashtime);
+            rt_timer_start(Moto_Cycle_Timer);
+            Green_Light();
+        }
+        else
+        {
+            LOG_D("Moto is Working Now");
+        }
     }
     else
     {
-        LOG_D("Moto is Working Now");
+        LOG_D("Moto Not Work(Low Voltage)");
+        jumpd();
+        JumpToBatteryEmpty();
     }
 }
 MSH_CMD_EXPORT(Moto_Cycle,Moto_Cycle);
@@ -118,8 +129,6 @@ void Moto_Free_Event_Release(void)
         ScreenTimerRefresh();
         jumpc();
         LOG_D("Left is Done\r\n");
-        //Green_Off();
-        //BlinkBL();
     }
 }
 void SleepAfterCycle(void)
@@ -129,7 +138,6 @@ void SleepAfterCycle(void)
 void Moto_Entry(void *parameter)
 {
     rt_uint32_t e;
-//    rt_uint32_t Moto_Voltage_Zero_Counter=0;
     rt_uint32_t Moto_Voltage=0;
     Moto_Init();
     while(1)
@@ -141,47 +149,19 @@ void Moto_Entry(void *parameter)
             if(Moto_Voltage>400)
             {
                 LOG_D("Moto is Overload\r\n");
-//                Moto_Voltage_Zero_Counter=0;
                 rt_pin_write(MOTO_IN1,0);
                 rt_pin_write(MOTO_IN2,0);
                 MotoWorkFlag=0;
                 jumpb();
-                //BlinkBL();
                 rt_timer_stop(Moto_Cycle_Timer);
                 rt_event_send(&Moto_Event, Event_Moto_Free);
                 ScreenTimerRefresh();
             }
-//            else if(0<Moto_Voltage&&Moto_Voltage<200)
-//            {
-//                Moto_Voltage_Zero_Counter=0;
-//            }
-//                else if(Moto_Voltage == 0)
-//                {
-//                    Moto_Voltage_Zero_Counter++;
-//                    if(Moto_Voltage_Zero_Counter>30)
-//                    {
-//                        Moto_Voltage_Zero_Counter=0;
-//                        OpenLcdDisplay();
-//                        rt_pin_write(MOTO_IN1,0);
-//                        rt_pin_write(MOTO_IN2,0);
-//                        MotoWorkFlag=0;
-//                        ScreenTimerRefresh();
-//                        LOG_D("No Moto\r\n");
-//                        OpenLcdDisplay();
-//                        ScreenTimerRefresh();
-//                        jumpb();
-//                        //BlinkBL();
-//                        rt_timer_stop(Moto_Cycle_Timer);
-//                        rt_event_send(&Moto_Event, Event_Moto_Free);
-//                        ScreenTimerRefresh();
-//                    }
-//                }
 
         }
         if (rt_event_recv(&Moto_Event, (Event_Moto_Free | Event_Moto_Forward| Event_Moto_Back| Event_Moto_Cycle),RT_EVENT_FLAG_OR | RT_EVENT_FLAG_CLEAR,0, &e) == RT_EOK)
         {
             LOG_D("recv event 0x%x\n", e);
-            //Moto_Voltage_Zero_Counter = 0;
             switch(e)
             {
                 case Event_Moto_Free:

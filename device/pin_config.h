@@ -11,9 +11,9 @@
 #define __PIN_CONFIG_H__
 
 
-#define LED_R_PIN  				    22
-#define LED_G_PIN  				    21
-#define LED_B_PIN  				    20
+#define LED_R_PIN  				    21
+#define LED_G_PIN  				    22
+#define LED_B_PIN  				    23
 
 //LCD
 #define LCD_BL						42

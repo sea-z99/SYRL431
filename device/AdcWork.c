@@ -76,11 +76,11 @@ uint32_t Get_Adc_Value(uint8_t channel)
    for(uint8_t i=0;i<1;i++)
    {
        value = rt_adc_read(adc_dev, channel);
-       rt_kprintf("the value is :%d \r\n", value);
+       //rt_kprintf("the value is :%d \r\n", value);
        sum+=value;
    }
    //sum = (int)(sum * REFER_VOLTAGE / CONVERT_BITS);
-   LOG_D("the voltage is :%d \r\n", sum);
+   //LOG_D("the voltage is :%d \r\n", sum);
 
    /* 关闭通道 */
    //rt_adc_disable(adc_dev, channel);
@@ -114,10 +114,17 @@ uint8_t Get_DC_Level(void)
     uint32_t value;
 	value  = Get_Adc_Value(5);
 	LOG_D("DC Value is %ld\r\n",value);
-    if(value>2000)return 1;
+    if(value>3000)return 1;
     else return 0;
 }
 MSH_CMD_EXPORT(Get_DC_Level,Get_DC_Level);
+uint32_t Get_Bat_Value(void)
+{
+    uint32_t value;
+    value  = Get_Adc_Value(6);
+    LOG_D("BAT Value is %ld\r\n",value);
+    return value;
+}
 uint8_t Get_Bat_Level(void)
 {
     uint32_t value;

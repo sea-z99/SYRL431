@@ -58,7 +58,7 @@ void boot_time(void)
     ef_set_env("boot_times", c_new_boot_times);
     ef_save_env();
 }
-int Flash_Init(void)
+int flash_Init(void)
 {
     __HAL_RCC_GPIOB_CLK_ENABLE();
     rt_pin_mode(FLASH_EN, PIN_MODE_OUTPUT);
