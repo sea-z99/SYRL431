@@ -42,7 +42,7 @@ void BatteryWatcherCallback(void *parameter)
         //{
             if(LowVoltageFlag)
             {
-                if(NowBatVol>PastBatVol&&NowBatVol-PastBatVol>200)
+                if(NowBatVol>PastBatVol&&NowBatVol>500 + PastBatVol)
                 {
                     if(NowBatVol>3429)
                     {

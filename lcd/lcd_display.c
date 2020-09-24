@@ -1123,7 +1123,7 @@ static void UserMain4WinFun(void *param)
                     GuiButton(&tButton[1]);
                     break;
                 case 1:
-                    if(Reminder_Day_Temp--<=0)Reminder_Day_Temp=30;
+                    if(Reminder_Day_Temp--<=0)Reminder_Day_Temp=6;
                     sprintf(daystring,"Days:%02d",Reminder_Day_Temp);
                     tButton[2].name = daystring;
                     GuiButton(&tButton[2]);
@@ -1147,7 +1147,7 @@ static void UserMain4WinFun(void *param)
                     GuiButton(&tButton[1]);
                     break;
                 case 1:
-                    if(Reminder_Day_Temp++>=30)Reminder_Day_Temp=0;
+                    if(Reminder_Day_Temp++>=6)Reminder_Day_Temp=0;
                     sprintf(daystring,"Days:%02d",Reminder_Day_Temp);
                     tButton[2].name = daystring;
                     GuiButton(&tButton[2]);
@@ -1287,7 +1287,7 @@ static void UserMain5WinFun(void *param)
                     GuiButton(&tButton[1]);
                     break;
                 case 1:
-                    if(Automatic_Day_Temp--<=0)Automatic_Day_Temp=30;
+                    if(Automatic_Day_Temp--<=0)Automatic_Day_Temp=6;
                     sprintf(daystring,"Days:%02d",Automatic_Day_Temp);
                     tButton[2].name = daystring;
                     GuiButton(&tButton[2]);
@@ -1311,7 +1311,7 @@ static void UserMain5WinFun(void *param)
                     GuiButton(&tButton[1]);
                     break;
                 case 1:
-                    if(Automatic_Day_Temp++>=30)Automatic_Day_Temp=0;
+                    if(Automatic_Day_Temp++>=6)Automatic_Day_Temp=0;
                     sprintf(daystring,"Days:%02d",Automatic_Day_Temp);
                     tButton[2].name = daystring;
                     GuiButton(&tButton[2]);
@@ -1381,7 +1381,6 @@ static void UserMain6WinFun(void *param)
     if(FirstFlag[6] == 0)
     {
         FirstFlag[6] = 1;
-        //GuiUpdateDisplayAll();
         Deltapress_Enable_Temp=Deltapress_Enable;
         GuiRowText(27,15,100,0,"Backwash is");
 
