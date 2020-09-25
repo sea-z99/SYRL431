@@ -175,6 +175,15 @@ void Led_DeInit(void)
     rt_pin_mode(LED_B_PIN, PIN_MODE_OUTPUT);
     rt_pin_write(LED_B_PIN,1);
 }
+void Green_Red_Blinky(void)
+{
+    while(1)
+    {
+        Green_Light();
+        rt_thread_mdelay(200);
+        Red_Light();
+    }
+}
 void Green_Light(void)
 {
     Red_Off();

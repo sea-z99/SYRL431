@@ -5,6 +5,7 @@ void Key_Init(void);
 void button(void);
 void Delta_press_work(void);
 void Led_Init(void);
+void Green_Red_Blinky(void);
 void Green_Light(void);
 void Green_Off(void);
 void Red_Light(void);

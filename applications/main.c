@@ -27,12 +27,18 @@
 
 int main(void)
 {
-    flash_Init();
-    fal_init();
-    easyflash_init();
-    boot_time();
-    RTC_Init();
     Led_Init();
+    if(flash_Init()==RT_EOK)
+    {
+        fal_init();
+        easyflash_init();
+        boot_time();
+    }
+    else
+    {
+        Green_Red_Blinky();
+    }
+    RTC_Init();
     button();
     adc_init();
     lcd();
@@ -40,7 +46,6 @@ int main(void)
     BatterWatcher();
     while (1)
     {
-        //EnterLowPower();
         rt_thread_mdelay(1000);
     }
 

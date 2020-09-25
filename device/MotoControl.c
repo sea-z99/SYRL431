@@ -112,7 +112,7 @@ void Moto_Cycle(void)
     else
     {
         LOG_D("Moto Not Work(Low Voltage)");
-        jumpd();
+        jumpe();
         JumpToBatteryEmpty();
     }
 }
