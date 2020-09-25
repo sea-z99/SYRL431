@@ -24,6 +24,7 @@ extern uint8_t LowVoltageFlag;
 extern uint32_t RTC_Reminder_Time ;
 extern uint32_t RTC_Automatic_Time;
 extern uint32_t TDS_Value;
+extern uint32_t Setting_Hardness;
 
 void Moto_Cycle_Timer_Callback(void *parameter)
 {
@@ -142,7 +143,7 @@ void Moto_Free_Event_Release(void)
         rt_pin_write(MOTO_IN2,0);
         MotoWorkFlag=0;
         ScreenTimerRefresh();
-        if(TDS_Value > 50)
+        if(TDS_Value > Setting_Hardness)
         {
             jumpa();
         }

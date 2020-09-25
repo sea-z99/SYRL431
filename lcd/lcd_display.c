@@ -80,7 +80,7 @@ uint16_t Counter_Automatic=0;
 uint16_t Counter_Deltapress=0;
 uint16_t Counter_Error=0;
 uint8_t Setting_Deltapress=0; //0:Report only  1:Automatic
-uint16_t Setting_Hardness=0;
+uint32_t Setting_Hardness=0;
 uint16_t Setting_Backwashtime=0;
 uint8_t Setting_Language=0;
 
