@@ -980,74 +980,74 @@ static void UserMain3WinFun(void *param)
      }
          else
          {
-                if(rt_event_recv(&lcd_jump_event, (JUMP_TDS|JUMP_STALLING|JUMP_FINISH|JUMP_NOMOTO|JUMP_EXIT),RT_EVENT_FLAG_OR | RT_EVENT_FLAG_CLEAR,RT_WAITING_NO, &e) == RT_EOK)
+            if(rt_event_recv(&lcd_jump_event, (JUMP_TDS|JUMP_STALLING|JUMP_FINISH|JUMP_NOMOTO|JUMP_EXIT),RT_EVENT_FLAG_OR | RT_EVENT_FLAG_CLEAR,RT_WAITING_NO, &e) == RT_EOK)
+            {
+                switch(e)
                 {
-                    switch(e)
-                    {
-                        case JUMP_TDS:
-                            GuiClearScreen(0);
-                            GuiRowText(0,1,125,0,"Increased water");
-                            GuiRowText(0,13,125,0,"hardness");
-                            GuiRowText(0,25,127,0,"The use of a water");
-                            GuiRowText(0,37,125,0,"soft system");
-                            GuiRowText(0,49,125,0,"is recommended");
-                            GuiRowText(106,56,30,0,"Yes");
-                            Jump_Flag=1;
-                            break;
-                        case JUMP_STALLING:
-                            GuiClearScreen(0);
-                            GuiRowText(50,15,127,0,"Error");
-                            GuiRowText(15,30,127,0,"Motor Stalling");
-                            GuiRowText(106,56,30,0,"Yes");
-                            Red_Light();
-                            Jump_Flag=1;
-                            break;
-                        case JUMP_FINISH:
-                            GuiClearScreen(0);
-                            GuiRowText(35,15,57,0,"Backwash");
-                            GuiRowText(40,27,70,0,"Finish");
-                            GuiRowText(106,56,30,0,"Yes");
-                            Jump_Flag=1;
-                            SemJump();
-                            break;
-                        case JUMP_NOMOTO:
-                            GuiClearScreen(0);
-                            GuiRowText(50,15,127,0,"Error");
-                            GuiRowText(40,30,127,0,"No Motor");
-                            GuiRowText(106,56,30,0,"Yes");
-                            Red_Light();
-                            Jump_Flag=1;
-                            break;
-                        case JUMP_EXIT:
-                            FirstFlag[3]=0;
-                            GuiClearScreen(0);
-                            GuiWinInit();
-                            GuiWinAdd(&userMain1Win);
-                            Red_Off();
-                            Green_Off();
-                            Jump_Flag=1;
-                            break;
-                    }
+                    case JUMP_TDS:
+                        GuiClearScreen(0);
+                        GuiRowText(0,1,125,0,"Increased water");
+                        GuiRowText(0,13,125,0,"hardness");
+                        GuiRowText(0,25,127,0,"The use of a water");
+                        GuiRowText(0,37,125,0,"soft system");
+                        GuiRowText(0,49,125,0,"is recommended");
+                        GuiRowText(106,56,30,0,"Yes");
+                        Jump_Flag=1;
+                        break;
+                    case JUMP_STALLING:
+                        GuiClearScreen(0);
+                        GuiRowText(50,15,127,0,"Error");
+                        GuiRowText(15,30,127,0,"Motor Stalling");
+                        GuiRowText(106,56,30,0,"Yes");
+                        Red_Light();
+                        Jump_Flag=1;
+                        break;
+                    case JUMP_FINISH:
+                        GuiClearScreen(0);
+                        GuiRowText(35,15,57,0,"Backwash");
+                        GuiRowText(40,27,70,0,"Finish");
+                        GuiRowText(106,56,30,0,"Yes");
+                        Jump_Flag=1;
+                        SemJump();
+                        break;
+                    case JUMP_NOMOTO:
+                        GuiClearScreen(0);
+                        GuiRowText(50,15,127,0,"Error");
+                        GuiRowText(40,30,127,0,"No Motor");
+                        GuiRowText(106,56,30,0,"Yes");
+                        Red_Light();
+                        Jump_Flag=1;
+                        break;
+                    case JUMP_EXIT:
+                        FirstFlag[3]=0;
+                        GuiClearScreen(0);
+                        GuiWinInit();
+                        GuiWinAdd(&userMain1Win);
+                        Red_Off();
+                        Green_Off();
+                        Jump_Flag=1;
+                        break;
                 }
+            }
 
-                K0_Status = rt_sem_take(K0_Sem, 0);
-                K1_Status = rt_sem_take(K1_Sem, 0);
-                K2_Status = rt_sem_take(K2_Sem, 0);
-                K2_Long_Status = rt_sem_take(K2_Long_Sem, 0);
-                if(K2_Long_Status==RT_EOK)
-                {
+            K0_Status = rt_sem_take(K0_Sem, 0);
+            K1_Status = rt_sem_take(K1_Sem, 0);
+            K2_Status = rt_sem_take(K2_Sem, 0);
+            K2_Long_Status = rt_sem_take(K2_Long_Sem, 0);
+            if(K2_Long_Status==RT_EOK)
+            {
 
-                }
-                if(K2_Status==RT_EOK&&Jump_Flag==1)
-                {
-                    FirstFlag[3]=0;
-                    GuiClearScreen(0);
-                    GuiWinInit();
-                    GuiWinAdd(&userMain1Win);
-                    Red_Off();
-                    Green_Off();
-                }
-         }
+            }
+            if(K2_Status==RT_EOK&&Jump_Flag==1)
+            {
+                FirstFlag[3]=0;
+                GuiClearScreen(0);
+                GuiWinInit();
+                GuiWinAdd(&userMain1Win);
+                Red_Off();
+                Green_Off();
+            }
+     }
 }
 
 uint8_t Reminder_Week_Temp;
