@@ -231,7 +231,7 @@ void OpenLcdDisplay(void)
 
 void LcdDeinit(void)
 {
-    rt_pin_mode(LCD_EN, PIN_MODE_INPUT);
+    rt_pin_mode(LCD_EN, PIN_MODE_OUTPUT);
     rt_pin_write(LCD_EN,0);
 }
 void CloseLcdVcc(void)

@@ -52,14 +52,20 @@ void FlashInit(void)
 void UsartInit(void)
 {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
-    GPIO_InitStruct.Alternate = 7;
-    GPIO_InitStruct.Pin = GPIO_PIN_9;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-    GPIO_InitStruct.Pin = GPIO_PIN_10;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+    __HAL_RCC_USART3_CLK_ENABLE();
+
+     __HAL_RCC_GPIOC_CLK_ENABLE();
+     /**USART3 GPIO Configuration
+     PC4     ------> USART3_TX
+     PC5     ------> USART3_RX
+     */
+     GPIO_InitStruct.Pin = GPIO_PIN_4|GPIO_PIN_5;
+     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+     GPIO_InitStruct.Pull = GPIO_NOPULL;
+     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+     GPIO_InitStruct.Alternate = GPIO_AF7_USART3;
+     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 }
 void FlashDeInit(void)
 {
@@ -109,7 +115,7 @@ void BeforSleep(void)
     //WIFI
     WifiDeInit();
     //TDS
-    Tds_DeInit();
+    //Tds_DeInit();
 }
 void AfterWake(void)
 {
@@ -141,10 +147,6 @@ void EnterLowPower(void)
     {
         AfterWake();
         LOG_D("RTC Wake Up Now\r\n");
-        //RTC_Timer_Entry();
-        //RTC_Check();
-        //EnterLowPower();
-        //LowPowerTimerStart();
     }
 }
 MSH_CMD_EXPORT(EnterLowPower,EnterLowPower);

@@ -89,36 +89,36 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* hspi)
 }
 void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
 {
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
-  if(hadc->Instance==ADC1)
-  {
-  /* USER CODE BEGIN ADC1_MspInit 0 */
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+    if(hadc->Instance==ADC1)
+    {
+    /* USER CODE BEGIN ADC1_MspInit 0 */
 
-  /* USER CODE END ADC1_MspInit 0 */
-    /* Peripheral clock enable */
-    __HAL_RCC_ADC_CLK_ENABLE();
+    /* USER CODE END ADC1_MspInit 0 */
+      /* Peripheral clock enable */
+      __HAL_RCC_ADC_CLK_ENABLE();
 
-    __HAL_RCC_GPIOA_CLK_ENABLE();
-    __HAL_RCC_GPIOB_CLK_ENABLE();
-    /**ADC1 GPIO Configuration
-    PA0     ------> ADC1_IN5
-    PA1     ------> ADC1_IN6
-    PB1     ------> ADC1_IN16
-    */
-    GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
-    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG_ADC_CONTROL;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+      __HAL_RCC_GPIOC_CLK_ENABLE();
+      __HAL_RCC_GPIOB_CLK_ENABLE();
+      /**ADC1 GPIO Configuration
+      PC1     ------> ADC1_IN2
+      PC2     ------> ADC1_IN3
+      PB1     ------> ADC1_IN16
+      */
+      GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_2;
+      GPIO_InitStruct.Mode = GPIO_MODE_ANALOG_ADC_CONTROL;
+      GPIO_InitStruct.Pull = GPIO_NOPULL;
+      HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = GPIO_PIN_1;
-    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG_ADC_CONTROL;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+      GPIO_InitStruct.Pin = GPIO_PIN_1;
+      GPIO_InitStruct.Mode = GPIO_MODE_ANALOG_ADC_CONTROL;
+      GPIO_InitStruct.Pull = GPIO_NOPULL;
+      HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /* USER CODE BEGIN ADC1_MspInit 1 */
+    /* USER CODE BEGIN ADC1_MspInit 1 */
 
-  /* USER CODE END ADC1_MspInit 1 */
-  }
+    /* USER CODE END ADC1_MspInit 1 */
+    }
 
 }
 void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)

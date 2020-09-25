@@ -1,5 +1,6 @@
 #include "rtthread.h"
 #include "rtdevice.h"
+#include "stm32l4xx.h"
 #include "MotoControl.h"
 #include "pin_config.h"
 #include "lcd_display.h"
@@ -52,8 +53,16 @@ void Moto_Pin_Init(void)
 }
 void Moto_Pin_DeInit(void)
 {
+    rt_pin_mode(MOTO_MODE, PIN_MODE_OUTPUT);
+    rt_pin_write(MOTO_MODE,0);
+    rt_pin_mode(MOTO_IN1, PIN_MODE_OUTPUT);
+    rt_pin_write(MOTO_IN1,0);
+    rt_pin_mode(MOTO_IN2, PIN_MODE_OUTPUT);
+    rt_pin_write(MOTO_IN2,0);
     rt_pin_mode(MOTO_VCC, PIN_MODE_OUTPUT);
     rt_pin_write(MOTO_VCC,0);
+    rt_pin_mode(MOTO_LEFT, PIN_MODE_INPUT);
+    rt_pin_mode(MOTO_RIGHT, PIN_MODE_INPUT);
 }
 void Moto_Init(void)
 {
