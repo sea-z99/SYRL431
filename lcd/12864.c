@@ -243,7 +243,6 @@ void CloseLcdVcc(void)
     rt_pin_write(LCD_SDA,0);
     rt_pin_write(LCD_CLK,0);
     LcdDeinit();
-    EnterLowPower();
 }
 void CloseLcdBacklight(void)
 {

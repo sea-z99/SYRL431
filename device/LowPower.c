@@ -18,6 +18,7 @@
 #include "LowPower.h"
 #include "TdsWork.h"
 #include "RtcWork.h"
+#include "12864.h"
 
 #define DBG_TAG "LowPower"
 #define DBG_LVL DBG_LOG
@@ -116,6 +117,8 @@ void BeforSleep(void)
     WifiDeInit();
     //TDS
     //Tds_DeInit();
+    //LCD
+    CloseLcdVcc();
 }
 void AfterWake(void)
 {

@@ -126,7 +126,7 @@ void LcdVccTimerCallback(void *parameter)
 {
     LOG_D("Lcd Vcc Timer is come\r\n");
     LCD_Flag = 3;
-    CloseLcdVcc();
+    EnterLowPower();
 }
 void LcdBacklightTimerCallback(void *parameter)
 {
