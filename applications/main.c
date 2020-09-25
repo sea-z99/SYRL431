@@ -20,6 +20,7 @@
 #include "LowPower.h"
 #include "FlashWork.h"
 #include "Battery.h"
+#include "TdsWork.h"
 
 #define DBG_TAG "main"
 #define DBG_LVL DBG_LOG
@@ -44,6 +45,7 @@ int main(void)
     lcd();
     Moto_TaskUp();
     BatterWatcher();
+    TDS__Uart_Init();
     while (1)
     {
         rt_thread_mdelay(1000);

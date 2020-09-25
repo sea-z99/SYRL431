@@ -118,6 +118,8 @@ extern rt_sem_t K1_Sem;
 extern rt_sem_t K2_Sem;
 extern rt_sem_t K2_Long_Sem;
 
+extern uint32_t TDS_Value;
+
 static rt_err_t K0_Status;
 static rt_err_t K1_Status;
 static rt_err_t K2_Status;
@@ -3342,11 +3344,8 @@ static void UserMain23WinFun(void *param)//password
         FirstFlag[23] = 1;
         NowWinid = 23;
 
-        TdsValue = Tds_Work();
-        result = (TdsValue - TdsValueZeroOffset)*TdsValueOffset;
-        sprintf(CurrentTdsString,"%05d",result);
+        sprintf(CurrentTdsString,"%05dus/cm",0);
         GuiRowText(30,25,110,0,CurrentTdsString);
-        GuiRowText(70,25,110,0,"us/cm");
 
         tButton[3].x = 0;
         tButton[3].y = 50;
@@ -3360,11 +3359,9 @@ static void UserMain23WinFun(void *param)//password
     else
     {
         TdsValue = Tds_Work();
-        result = (TdsValue - TdsValueZeroOffset)*TdsValueOffset;
-        sprintf(CurrentTdsString,"%05d",result);
-        GuiRowText(30,25,110,0,"     ");
+        sprintf(CurrentTdsString,"%05dus/cm",TdsValue);
         GuiRowText(30,25,110,0,CurrentTdsString);
-        rt_thread_mdelay(300);
+        rt_thread_mdelay(1000);
         K0_Status = rt_sem_take(K0_Sem, 0);
         K1_Status = rt_sem_take(K1_Sem, 0);
         K2_Status = rt_sem_take(K2_Sem, 0);
@@ -3440,13 +3437,13 @@ static void UserMain24WinFun(void *param)//password
         {
             if(TdsValueOffsetTemp==0)
             {
-                TdsValueZeroOffset=Tds_Work();
+                //TdsValueZeroOffset=Tds_Work();
                 rt_kprintf("Zero Offset is %d\r\n",TdsValueZeroOffset);
             }
             else
 
             {
-                TdsValueOffset = (double)TdsValueOffsetTemp / (double)(Tds_Work()-TdsValueZeroOffset);
+                //TdsValueOffset = (double)TdsValueOffsetTemp / (double)(Tds_Work()-TdsValueZeroOffset);
                 printf("Offset is %5.3f\r\n",TdsValueOffset);
             }
             GuiClearScreen(0);

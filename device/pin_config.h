@@ -108,8 +108,6 @@
 
 //TDS
 #define TDS_EN                      1
-#define TDS_CONTROL1                2
-#define TDS_CONTROL2                3
 
 //WIFI
 #define WIFI_EN                     41

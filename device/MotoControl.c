@@ -7,6 +7,8 @@
 #include "adcwork.h"
 #include "deviceinit.h"
 #include "12864.h"
+#include "TdsWork.h"
+
 static rt_thread_t Moto_Thread=RT_NULL;
 struct rt_event Moto_Event;
 rt_timer_t Moto_Cycle_Timer=RT_NULL;
@@ -21,6 +23,7 @@ extern uint16_t Setting_Backwashtime;
 extern uint8_t LowVoltageFlag;
 extern uint32_t RTC_Reminder_Time ;
 extern uint32_t RTC_Automatic_Time;
+extern uint32_t TDS_Value;
 
 void Moto_Cycle_Timer_Callback(void *parameter)
 {
@@ -129,6 +132,9 @@ void Moto_Free_Event_Release(void)
         rt_pin_write(MOTO_IN2,0);
         MotoWorkFlag=0;
         LOG_D("Right is Done\r\n");
+        Tds_Work();
+        rt_thread_mdelay(200);
+        Tds_Work();
     }
     if(Left_Status==0&&MotoWorkFlag==2)
     {
@@ -136,7 +142,14 @@ void Moto_Free_Event_Release(void)
         rt_pin_write(MOTO_IN2,0);
         MotoWorkFlag=0;
         ScreenTimerRefresh();
-        jumpc();
+        if(TDS_Value > 50)
+        {
+            jumpa();
+        }
+        else
+        {
+            jumpc();
+        }
         LOG_D("Left is Done\r\n");
     }
 }
