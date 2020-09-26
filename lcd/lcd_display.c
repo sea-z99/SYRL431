@@ -38,7 +38,7 @@ char *Factory="Factory";
 char *Language="Language";
 char *Update_FW="Update FW";
 char *Smart_Link="Smart Link";
-char *TDS_MODE="TDS Verify";
+char *TDS_MODE="TDS Value";
 
 static void UserMain1WinFun(void *param);
 static void UserMain2WinFun(void *param);
@@ -3111,7 +3111,7 @@ static void UserMain20WinFun(void *param)
         tButton[3].y = 50;
         tButton[3].wide = 128;
         tButton[3].high = 15;
-        tButton[3].name = Back;
+        tButton[3].name = SingleSelect;
         tButton[3].linesize = 0;
         tButton[3].flag = 1;/* 按下状态 */
         GuiButton(&tButton[3]);
@@ -3128,57 +3128,20 @@ static void UserMain20WinFun(void *param)
         }
         if(K0_Status==RT_EOK)
         {
-            switch(NowButtonId)
-            {
-                case 0:
-                    NowButtonId = 1;
-                    tButton[0].flag=0;
-                    GuiButton(&tButton[0]);
-                    tButton[2].flag=1;
-                    GuiButton(&tButton[2]);
-                    break;
-                case 1:
-                    NowButtonId = 2;
-                    tButton[1].flag=0;
-                    GuiButton(&tButton[1]);
-                    tButton[0].flag=1;
-                    GuiButton(&tButton[0]);
-                    break;
-                case 2:
-                    NowButtonId = 0;
-                    tButton[2].flag=0;
-                    GuiButton(&tButton[2]);
-                    tButton[1].flag=1;
-                    GuiButton(&tButton[1]);
-                    break;
-            }
+            tButton[NowButtonId].flag=0;
+            GuiButton(&tButton[NowButtonId]);
+            NowButtonId++;
+            if(NowButtonId==3){NowButtonId=0;}
+            tButton[NowButtonId].flag=1;
+            GuiButton(&tButton[NowButtonId]);
         }
         if(K1_Status==RT_EOK)
         {
-            switch(NowButtonId)
-            {
-                case 0:
-                    NowButtonId = 1;
-                    tButton[0].flag=0;
-                    GuiButton(&tButton[0]);
-                    tButton[1].flag=1;
-                    GuiButton(&tButton[1]);
-                    break;
-                case 1:
-                    NowButtonId = 2;
-                    tButton[1].flag=0;
-                    GuiButton(&tButton[1]);
-                    tButton[2].flag=1;
-                    GuiButton(&tButton[2]);
-                    break;
-                case 2:
-                    NowButtonId = 0;
-                    tButton[2].flag=0;
-                    GuiButton(&tButton[2]);
-                    tButton[0].flag=1;
-                    GuiButton(&tButton[0]);
-                    break;
-            }
+            tButton[NowButtonId].flag=0;
+            GuiButton(&tButton[NowButtonId]);
+            if(NowButtonId>0){NowButtonId--;}else NowButtonId=2;
+            tButton[NowButtonId].flag=1;
+            GuiButton(&tButton[NowButtonId]);
         }
         if(K2_Status==RT_EOK)
         {
@@ -3217,7 +3180,6 @@ static void UserMain21WinFun(void *param)//password
         FirstFlag[21] = 1;
         Tds_Password_Temp=0;
         NowWinid = 21;
-        //GuiUpdateDisplayAll();
 
         GuiRowText(15,20,100,0,"Input Password");
         sprintf(Tds_PasswordString,"%02d",Tds_Password_Temp);
@@ -3227,7 +3189,7 @@ static void UserMain21WinFun(void *param)//password
         tButton[3].y = 50;
         tButton[3].wide = 128;
         tButton[3].high = 15;
-        tButton[3].name = Back;
+        tButton[3].name = SingleSelect;
         tButton[3].linesize = 0;
         tButton[3].flag = 1;/* 按下状态 */
         GuiButton(&tButton[3]);
@@ -3244,10 +3206,9 @@ static void UserMain21WinFun(void *param)//password
         }
         if(K0_Status==RT_EOK)
         {
-            GuiClearScreen(0);
-            GuiWinDeleteTop();
-            GuiWinDisplay();
-            FirstFlag[21]=0;
+            if(Tds_Password_Temp>0)Tds_Password_Temp--;
+            sprintf(Tds_PasswordString,"%02d",Tds_Password_Temp);
+            GuiRowText(57,32,85,0,Tds_PasswordString);
         }
         if(K1_Status==RT_EOK)
         {
@@ -3260,13 +3221,12 @@ static void UserMain21WinFun(void *param)//password
             GuiClearScreen(0);
             if(Tds_Password_Temp==Tds_Password)
             {
-                GuiWinAdd(&userMain22Win);
+                GuiWinAdd(&userMain23Win);
             }
             else
             {
                 GuiWinDeleteTop();
             }
-            GuiWinDisplay();
             FirstFlag[21]=0;
         }
     }
@@ -3287,14 +3247,6 @@ static void UserMain22WinFun(void *param)//password
         tButton[0].flag = 1;/* 按下状态 */
         GuiButton(&tButton[0]);
 
-        tButton[1].x = 0;
-        tButton[1].y = 24;
-        tButton[1].wide = 128;
-        tButton[1].high = 15;
-        tButton[1].name = "Calibration Value";
-        tButton[1].linesize = 0;
-        tButton[1].flag = 0;/* 按下状态 */
-        //GuiButton(&tButton[1]);
 
         tButton[3].x = 0;
         tButton[3].y = 50;
@@ -3338,10 +3290,6 @@ static void UserMain22WinFun(void *param)//password
             {
                 GuiWinAdd(&userMain23Win);
             }
-//            else if(NowButtonId==1)
-//            {
-//                GuiWinAdd(&userMain24Win);
-//            }
         }
     }
 }
@@ -3364,7 +3312,7 @@ static void UserMain23WinFun(void *param)//password
         tButton[3].y = 50;
         tButton[3].wide = 128;
         tButton[3].high = 15;
-        tButton[3].name = SingleLeftBack;
+        tButton[3].name = SingleRightBack;
         tButton[3].linesize = 0;
         tButton[3].flag = 1;/* 按下状态 */
         GuiButton(&tButton[3]);
@@ -3385,10 +3333,7 @@ static void UserMain23WinFun(void *param)//password
         }
         if(K0_Status==RT_EOK)
         {
-            GuiClearScreen(0);
-            GuiWinDeleteTop();
-            GuiWinDisplay();
-            FirstFlag[23]=0;
+
         }
         if(K1_Status==RT_EOK)
         {
@@ -3396,7 +3341,10 @@ static void UserMain23WinFun(void *param)//password
         }
         if(K2_Status==RT_EOK)
         {
-
+            GuiClearScreen(0);
+            GuiWinDeleteTop();
+            GuiWinDeleteTop();
+            FirstFlag[23]=0;
         }
     }
 }

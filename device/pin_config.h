@@ -81,8 +81,8 @@
 #define LCD_EN                      15
 
 //Key
-#define K0                          26
-#define K1                          18
+#define K0                          18
+#define K1                          26
 #define K2                          27
 
 //MOTO.
