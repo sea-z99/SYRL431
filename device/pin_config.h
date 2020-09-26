@@ -68,8 +68,8 @@
 //#define WATER_FLOW                  2
 
 
-#define LED_R_PIN                   22
-#define LED_G_PIN                   21
+#define LED_R_PIN                   21
+#define LED_G_PIN                   22
 #define LED_B_PIN                   20
 
 //LCD

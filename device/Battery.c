@@ -42,7 +42,7 @@ void BatteryWatcherCallback(void *parameter)
         //{
             if(LowVoltageFlag)
             {
-                if(NowBatVol>PastBatVol&&NowBatVol>500 + PastBatVol)
+                if(NowBatVol>PastBatVol&&NowBatVol>200 + PastBatVol)
                 {
                     if(NowBatVol>3200)
                     {
@@ -59,11 +59,15 @@ void BatteryWatcherCallback(void *parameter)
             }
             else
             {
-                if(NowBatVol<2000)
+                if(NowBatVol<2650&&NowBatVol>1000)
                 {
                     LOG_D("Battery is Empty\r\n");
                     LowVoltageFlag=1;
                     JumpToBatteryEmpty();
+                }
+                else
+                {
+                    LowVoltageFlag=0;
                 }
             }
         //}

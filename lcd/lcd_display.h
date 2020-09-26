@@ -22,4 +22,5 @@ void jumpe(void);
 void JumptoBackwash(void);
 void userAppPortInit(void);
 void LcdtoBackwash(void);
+void JumptoMainWin(void);
 

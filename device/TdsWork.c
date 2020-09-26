@@ -64,7 +64,8 @@ void data_parsing(void)
             if(data[0] == DATA_CMD_BEGIN)
             {
                 LOG_D("TDS_High=%x,TDS_Low=%x\r\n",data[4],data[5]);
-                TDS_Value = (data[4]<<8) + data[5];
+                TDS_Value = ((data[4]<<8) + data[5]);
+                TDS_Value = (int)(0.1 * TDS_Value);
                 LOG_D("TDS_Value is %d\r\n",TDS_Value);
             }
             else

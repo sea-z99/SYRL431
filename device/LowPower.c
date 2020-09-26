@@ -19,6 +19,7 @@
 #include "TdsWork.h"
 #include "RtcWork.h"
 #include "12864.h"
+#include "lcd_display.h"
 
 #define DBG_TAG "LowPower"
 #define DBG_LVL DBG_LOG
@@ -128,6 +129,7 @@ void EnterLowPower(void)
     SystemClock_Config();
     if(Button_Wakeup_Flag)
     {
+        JumptoMainWin();
         AfterWake();
         LOG_D("Button Wake Up Now\r\n");
     }

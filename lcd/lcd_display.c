@@ -488,6 +488,13 @@ void JumpToBatteryNew(void)
     JumpToBatteryNewFlag = 1;
 }
 MSH_CMD_EXPORT(JumpToBatteryNew,JumpToBatteryNew);
+void JumptoMainWin(void)
+{
+    memset(FirstFlag,0,27);
+    GuiClearScreen(0);
+    GuiWinInit();
+    GuiWinAdd(&userMain1Win);
+}
 void LcdtoReminder(void)
 {
         if(FirstFlag[25]==0&&Jump_Flag==1)
@@ -2514,6 +2521,7 @@ static void UserMain14WinFun(void *param)
                             case 0:GuiWinAdd(&userMain15Win);break;//Delta Set
                             case 1:GuiWinAdd(&userMain16Win);break;//Hardness
                             case 2:GuiWinAdd(&userMain17Win);break;//Backwash Time
+                            case 3:GuiClearScreen(0);GuiWinDeleteTop();break;//Backwash Time
                         }
                         break;
                     case 1:
@@ -2522,12 +2530,14 @@ static void UserMain14WinFun(void *param)
                             case 0:GuiWinAdd(&userMain18Win);break;//Version
                             case 1:GuiWinAdd(&userMain19Win);break;//Factory
                             case 2:GuiWinAdd(&userMain20Win);break;//Language
+                            case 3:GuiClearScreen(0);GuiWinDeleteTop();break;//Backwash Time
                         }
                         break;
                     case 2:
                         switch(NowButtonId)
                         {
                             case 2:GuiWinAdd(&userMain21Win);break;//Password
+                            case 3:GuiClearScreen(0);GuiWinDeleteTop();break;//Backwash Time
                         }
                         break;
                     case 3:
@@ -2536,6 +2546,7 @@ static void UserMain14WinFun(void *param)
                             case 0:GuiWinAdd(&userMain15Win);break;//Delta Set
                             case 1:GuiWinAdd(&userMain16Win);break;//Hardness
                             case 2:GuiWinAdd(&userMain17Win);break;//Backwash Time
+                            case 3:GuiClearScreen(0);GuiWinDeleteTop();break;//Backwash Time
                         }
                         break;
                     case 4:
@@ -2544,16 +2555,20 @@ static void UserMain14WinFun(void *param)
                             case 0:GuiWinAdd(&userMain18Win);break;//Version
                             case 1:GuiWinAdd(&userMain19Win);break;//Factory
                             case 2:GuiWinAdd(&userMain20Win);break;//Language
+                            case 3:GuiClearScreen(0);GuiWinDeleteTop();break;//Backwash Time
                         }
                         break;
                     case 5:
                         switch(NowButtonId)
                         {
                             case 2:GuiWinAdd(&userMain21Win);break;//Password
+                            case 3:GuiClearScreen(0);GuiWinDeleteTop();break;//Backwash Time
                         }
                         break;
 
                 }
+                Win14PageID = 0;
+                NowButtonId = 0;
             }
         }
 }
@@ -3279,7 +3294,7 @@ static void UserMain22WinFun(void *param)//password
         tButton[1].name = "Calibration Value";
         tButton[1].linesize = 0;
         tButton[1].flag = 0;/* 按下状态 */
-        GuiButton(&tButton[1]);
+        //GuiButton(&tButton[1]);
 
         tButton[3].x = 0;
         tButton[3].y = 50;
@@ -3304,17 +3319,16 @@ static void UserMain22WinFun(void *param)//password
         {
             GuiClearScreen(0);
             GuiWinDeleteTop();
-            GuiWinDisplay();
             FirstFlag[22]=0;
         }
         if(K1_Status==RT_EOK)
         {
-            tButton[NowButtonId].flag=0;
-            GuiButton(&tButton[NowButtonId]);
-            NowButtonId++;
-            if(NowButtonId==2){NowButtonId=0;}
-            tButton[NowButtonId].flag=1;
-            GuiButton(&tButton[NowButtonId]);
+//            tButton[NowButtonId].flag=0;
+//            GuiButton(&tButton[NowButtonId]);
+//            NowButtonId++;
+//            if(NowButtonId==1){NowButtonId=0;}
+//            tButton[NowButtonId].flag=1;
+//            GuiButton(&tButton[NowButtonId]);
         }
         if(K2_Status==RT_EOK)
         {
@@ -3324,11 +3338,10 @@ static void UserMain22WinFun(void *param)//password
             {
                 GuiWinAdd(&userMain23Win);
             }
-            else if(NowButtonId==1)
-            {
-                GuiWinAdd(&userMain24Win);
-            }
-            GuiWinDisplay();
+//            else if(NowButtonId==1)
+//            {
+//                GuiWinAdd(&userMain24Win);
+//            }
         }
     }
 }

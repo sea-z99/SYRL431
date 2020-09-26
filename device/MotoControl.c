@@ -95,7 +95,7 @@ MSH_CMD_EXPORT(moto_stop,moto_stop);
 void Moto_Cycle(void)
 {
     RTC_Clear();
-    if(LowVoltageFlag==0)
+    if(LowVoltageFlag==0 || Get_DC_Level()==1)
     {
         if(MotoWorkFlag == 0)
         {
@@ -169,7 +169,7 @@ void Moto_Entry(void *parameter)
         {
             Moto_Free_Event_Release();
             Moto_Voltage = Get_Moto_Value();
-            if(Moto_Voltage>400)
+            if(Moto_Voltage>200)
             {
                 LOG_D("Moto is Overload\r\n");
                 rt_pin_write(MOTO_IN1,0);
