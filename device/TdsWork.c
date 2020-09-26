@@ -1,5 +1,6 @@
 #include "rtthread.h"
 #include "rtdevice.h"
+#include "stm32l4xx.h"
 #include "pin_config.h"
 #include "TdsWork.h"
 #include "adcwork.h"
@@ -13,7 +14,7 @@ uint8_t data_parsing_id = 0;
 uint32_t TDS_Value = 0;
 
 
-#define TDS_UART_NAME                 "uart2"
+#define TDS_UART_NAME                   "uart2"
 #define DATA_CMD_BEGIN                   0x55       /* 结束位设置为 \r，即回车符 */
 #define ONE_DATA_MAXLEN                  11         /* 不定长数据的最大长度 */
 
@@ -51,6 +52,8 @@ void data_parsing(void)
 {
     char ch;
     char data[ONE_DATA_MAXLEN];
+    Tds_Init();
+    LOG_D("Tds Thread Init Success\r\n");
 
     while (1)
     {
@@ -102,15 +105,27 @@ void TDS__Uart_Init(void)
 
     /* 创建 serial 线程 */
     TDS_Uart_Thread = rt_thread_create("serial", (void (*)(void *parameter))data_parsing, RT_NULL, 1024, 25, 10);
+
     /* 创建成功则启动线程 */
     if (TDS_Uart_Thread != RT_NULL)
     {
         rt_thread_startup(TDS_Uart_Thread);
     }
+    LOG_D("Tds Init Success\r\n");
 }
 MSH_CMD_EXPORT(TDS__Uart_Init, TDS__Uart_Init);
 void Tds_Init(void)
 {
+    __HAL_RCC_USART2_CLK_ENABLE();
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+    GPIO_InitStruct.Alternate = 7;
+    GPIO_InitStruct.Pin = GPIO_PIN_2;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+    GPIO_InitStruct.Pin = GPIO_PIN_3;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
     rt_pin_mode(TDS_EN, PIN_MODE_OUTPUT);
     rt_pin_write(TDS_EN,1);
 }
@@ -118,6 +133,12 @@ void Tds_DeInit(void)
 {
     rt_pin_mode(TDS_EN, PIN_MODE_OUTPUT);
     rt_pin_write(TDS_EN,0);
+    __HAL_RCC_USART2_CLK_DISABLE();
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+    GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_3;
+    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 }
 uint32_t Tds_Work(void)
 {

@@ -50,6 +50,11 @@ void RTC_Check(void)
 {
     rt_sem_release(RTC_Check_Sem);
 }
+void RTC_Clear(void)
+{
+    RTC_Reminder_Time = 0;
+    RTC_Automatic_Time = 0;
+}
 void RTC_Check_Callback(void *parameter)
 {
     while(1)
@@ -202,6 +207,6 @@ void RTC_Init(void)
 MSH_CMD_EXPORT(RTC_Init,RTC_Init);
 void RTC_Alarm_IRQHandler(void)
 {
-  HAL_RTC_AlarmIRQHandler(&RtcHandle);
+    HAL_RTC_AlarmIRQHandler(&RtcHandle);
 }
 

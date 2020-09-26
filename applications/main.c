@@ -34,10 +34,12 @@ int main(void)
         fal_init();
         easyflash_init();
         boot_time();
+        LOG_D("Storage Init Success\r\n");
     }
     else
     {
-        Green_Red_Blinky();
+        LOG_D("Storage Init Fail\r\n");
+        //Green_Red_Blinky();
     }
     RTC_Init();
     button();

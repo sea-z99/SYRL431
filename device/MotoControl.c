@@ -8,6 +8,7 @@
 #include "deviceinit.h"
 #include "12864.h"
 #include "TdsWork.h"
+#include "rtcwork.h"
 
 static rt_thread_t Moto_Thread=RT_NULL;
 struct rt_event Moto_Event;
@@ -93,8 +94,7 @@ MSH_CMD_EXPORT(moto_stop,moto_stop);
 
 void Moto_Cycle(void)
 {
-    RTC_Reminder_Time = 0;
-    RTC_Automatic_Time = 0;
+    RTC_Clear();
     if(LowVoltageFlag==0)
     {
         if(MotoWorkFlag == 0)

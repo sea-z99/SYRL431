@@ -530,7 +530,7 @@ void lcd_task_entry(void *parameter)
     Lcd_Event_Init();
     userAppPortInit();
     LCD_Flag = 0;
-
+    LOG_D("LCD Init Success\r\n");
     while(1)
         {
             userAppPortRun();
