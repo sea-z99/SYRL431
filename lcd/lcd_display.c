@@ -463,6 +463,8 @@ void jumpc(void)
 MSH_CMD_EXPORT(jumpc,jumpc);
 void jumpd(void)
 {
+    Counter_Error++;
+    Flash_Set(11,Counter_Error);
     rt_event_send(&lcd_jump_event, JUMP_NOMOTO);
 }
 MSH_CMD_EXPORT(jumpd,jumpd);
