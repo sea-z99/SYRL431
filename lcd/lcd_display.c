@@ -2029,6 +2029,7 @@ static void UserMain12WinFun(void *param)
          }
      }
 }
+extern uint8_t LowVoltageFlag;
 static void UserMain13WinFun(void *param)
 {
     if(FirstFlag[13] == 0)
@@ -2048,8 +2049,8 @@ static void UserMain13WinFun(void *param)
         tButton[1].y = 25;
         tButton[1].wide = 25;
         tButton[1].high = 15;
-        if(Get_Bat_Level()){tButton[1].name = "OK";}
-        else {tButton[1].name = "LOW";}
+        if(LowVoltageFlag){tButton[1].name = "LOW";}
+        else {tButton[1].name = "OK";}
         tButton[1].linesize = 0;
         tButton[1].flag = 1;/* 按下状态 */
         GuiButton(&tButton[1]);

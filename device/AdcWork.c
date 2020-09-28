@@ -91,19 +91,6 @@ void testadc(void)
 MSH_CMD_EXPORT(testadc,testadc);
 uint32_t Get_Tds_Value(void)
 {
-//    uint32_t value,sum=0;
-//    adc_get_offset();
-//    for(uint8_t i=0;i<10;i++)
-//    {
-//            wm_adc_convert(adc_dc,2,&value);
-//            sum+=value;
-//    }
-//    sum = sum*0.1;
-//    sum = ((sum-8192.0)/8192*2.25/1.2 + 1.584)*1000;
-//    printf("TDS Value is %d\r\n",sum);
-//    return sum;
-//    //5.4ms/cm -->1055(test1)
-
     return 0;
 }
 MSH_CMD_EXPORT(Get_Tds_Value,Get_Tds_Value);
@@ -123,15 +110,6 @@ uint32_t Get_Bat_Value(void)
     LOG_D("BAT Value is %ld\r\n",value);
     return value;
 }
-uint8_t Get_Bat_Level(void)
-{
-    uint32_t value;
-    value  = Get_Adc_Value(3);
-    LOG_D("BAT Value is %ld\r\n",value);
-    if(value>2000)return 1;
-    else return 0;
-}
-MSH_CMD_EXPORT(Get_Bat_Level,Get_Bat_Level);
 uint32_t Get_Moto_Value(void)
 {
     uint32_t value;
