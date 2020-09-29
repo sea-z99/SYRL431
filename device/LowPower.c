@@ -129,8 +129,8 @@ void EnterLowPower(void)
     SystemClock_Config();
     if(Button_Wakeup_Flag)
     {
-        JumptoMainWin();
         AfterWake();
+        JumptoMainWin();
         LOG_D("Button Wake Up Now\r\n");
     }
     else
