@@ -128,12 +128,11 @@ void Tds_Init(void)
     GPIO_InitStruct.Pin = GPIO_PIN_3;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
     rt_pin_mode(TDS_EN, PIN_MODE_OUTPUT);
-    rt_pin_write(TDS_EN,1);
+    //rt_pin_write(TDS_EN,1);
 }
 void Tds_DeInit(void)
 {
-    rt_pin_mode(TDS_EN, PIN_MODE_OUTPUT);
-    rt_pin_write(TDS_EN,0);
+    rt_pin_mode(TDS_EN, PIN_MODE_INPUT);
     __HAL_RCC_USART2_CLK_DISABLE();
     GPIO_InitTypeDef GPIO_InitStruct = {0};
     GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_3;
