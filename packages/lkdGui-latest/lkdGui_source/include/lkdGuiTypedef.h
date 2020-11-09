@@ -9,44 +9,44 @@
 #define NULL 0
 #endif
 
-/* lkdGui°æ±¾ºÅ */
+/* lkdGuiï¿½æ±¾ï¿½ï¿½ */
 #define LKGGUI_VERSION "V000.000.001"
 
-#define CWHITLE	0x00/* °×É« */
-#define CBLACK	0x01/* ºÚÉ« */
+#define CWHITLE	0x00/* ï¿½ï¿½É« */
+#define CBLACK	0x01/* ï¿½ï¿½É« */
 
 typedef int32_t lkdCoord;
 typedef uint8_t lkdColour;
 
-/* ¶¨ÒåÎ»Í¼½á¹¹Ìå */
+/* ï¿½ï¿½ï¿½ï¿½Î»Í¼ï¿½á¹¹ï¿½ï¿½ */
 typedef struct{
-    uint8_t *bitmap;	/* Î»Í¼Êý×é */
-    uint16_t wide;      /* Î»Í¼¿í */
-    uint16_t high;      /* Î»Í¼¸ß */
-    uint16_t beginx;    /* Î»Í¼¿ªÊ¼×ø±ê */
-    uint16_t beginy;    /* Î»Í¼¿ªÊ¼×ø±ê */
+    uint8_t *bitmap;	/* Î»Í¼ï¿½ï¿½ï¿½ï¿½ */
+    uint16_t wide;      /* Î»Í¼ï¿½ï¿½ */
+    uint16_t high;      /* Î»Í¼ï¿½ï¿½ */
+    uint16_t beginx;    /* Î»Í¼ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ */
+    uint16_t beginy;    /* Î»Í¼ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ */
 }lkdBitmap;
 
 
-/* lkd´°¿Ú¶¨Òå */
+/* lkdï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½ */
 typedef struct{
     lkdCoord x;
     lkdCoord y;
     uint16_t wide;
     uint16_t hight;
-    uint8_t   *title;   // ¶¨Òå±êÌâÀ¸Ö¸Õë(NULLÎª²»ÏÔÊ¾)
-    void(*WindowFunction)(void *param); // ´°¿Ú¶ÔÓ¦µÄ·þÎñ³ÌÐò
-    void * param;       //²ÎÊý
-		uint8_t firstflag;
+    uint8_t   *title;   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½(NULLÎªï¿½ï¿½ï¿½ï¿½Ê¾)
+    void(*WindowFunction)(void *param); // ï¿½ï¿½ï¿½Ú¶ï¿½Ó¦ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    void * param;       //ï¿½ï¿½ï¿½ï¿½
+    uint8_t firstflag;
 }lkdWin;
 
-/* lkd´°¿Ú¹ÜÀí */
+/* lkdï¿½ï¿½ï¿½Ú¹ï¿½ï¿½ï¿½ */
 struct GuiWinManage{
     uint8_t pWin;
     lkdWin *winStack[GUIWINMANAGE_NUM];
 };
 
-/* ¹ö¶¯Ìõ */
+/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 typedef struct{
     int16_t x;
     int16_t y;
@@ -55,100 +55,100 @@ typedef struct{
     int16_t lump;
 }lkdScroll;
 
-/* °´Å¥ */
+/* ï¿½ï¿½Å¥ */
 typedef struct{
-    lkdCoord x;     /* ×ø±ê */
+    lkdCoord x;     /* ï¿½ï¿½ï¿½ï¿½ */
     lkdCoord y;
     uint8_t wide;
     uint8_t high;
-    uint8_t flag;   /* 0 Ì§Æð×´Ì¬ 1 °´ÏÂ×´Ì¬ */
-    uint8_t *name;  /* °´¼üÄÚÈÝ */
-	uint8_t linesize;  /* ÏÂ»®Ïß³¤¶È */
+    uint8_t flag;   /* 0 Ì§ï¿½ï¿½×´Ì¬ 1 ï¿½ï¿½ï¿½ï¿½×´Ì¬ */
+    uint8_t *name;  /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	uint8_t linesize;  /* ï¿½Â»ï¿½ï¿½ß³ï¿½ï¿½ï¿½ */
 }lkdButton;
 enum ButtonState{
     BUTTON_UP,
     BUTTON_DOWN,
 };
 
-/* ½ø¶ÈÌõ */
+/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 typedef struct{
-    lkdCoord x;     /* ×ø±ê */
+    lkdCoord x;     /* ï¿½ï¿½ï¿½ï¿½ */
     lkdCoord y;
     uint8_t wide;
     uint8_t high;
-    uint8_t ratio; /* µ±Ç°½ø¶È 0~100 */
+    uint8_t ratio; /* ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ 0~100 */
 }lkdProgress;
 
-/* lkd²Ëµ¥½Úµã¶¨Òå */
+/* lkdï¿½Ëµï¿½ï¿½Úµã¶¨ï¿½ï¿½ */
 typedef struct lkdMenuNode{
-	uint16_t nodeId;            /* ½ÚµãºÅ */
-	uint8_t	*name;              /* ½ÚµãÃû³Æ */
-	struct lkdMenuNode *pBro;   /* ÏÂÒ»¸öÐÖµÜ½ÚµãºÅ */
-	struct lkdMenuNode *pSon;   /* ×Ó½ÚµãºÅ */
+	uint16_t nodeId;            /* ï¿½Úµï¿½ï¿½ */
+	uint8_t	*name;              /* ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ */
+	struct lkdMenuNode *pBro;   /* ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ÖµÜ½Úµï¿½ï¿½ */
+	struct lkdMenuNode *pSon;   /* ï¿½Ó½Úµï¿½ï¿½ */
 	void *user;
 }lkdMenuNode;
 
-/* lkd²Ëµ¥Õ»½á¹¹¶¨Òå */
+/* lkdï¿½Ëµï¿½Õ»ï¿½á¹¹ï¿½ï¿½ï¿½ï¿½ */
 typedef struct {
 	uint8_t	index;
 	lkdCoord cy;
 	lkdMenuNode *pNode;
 }MenuStack;
 
-/* lkd²Ëµ¥½á¹¹¶¨Òå */
+/* lkdï¿½Ëµï¿½ï¿½á¹¹ï¿½ï¿½ï¿½ï¿½ */
 typedef struct{
-	lkdCoord x;         /* ²Ëµ¥ÆðÊ¼×ø±ê */
+	lkdCoord x;         /* ï¿½Ëµï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ */
 	lkdCoord y;
 	uint16_t wide;
 	uint16_t hight;
-	uint8_t ItemsWide;  /* ²Ëµ¥Ïî¿í */
-	uint8_t Itemshigh;  /* ²Ëµ¥Ïî¸ß */
-	uint8_t index;      /* ²Ëµ¥µ±Ç°item */
-	uint8_t count;      /* ²Ëµ¥¼¶Êý¼ÆÊý */
-	uint8_t stackNum;   /* ²Ëµ¥Õ»´óÐ¡ ÒÔMenuStackÎªµ¥Î» */
-	MenuStack *stack;   /* ²Ëµ¥Õ» */
-	lkdMenuNode *Root;  /* ²Ëµ¥¸ù½Úµã */
-	void (* MenuDealWithFun)(void);/* ²Ëµ¥´¦Àíº¯Êý */
+	uint8_t ItemsWide;  /* ï¿½Ëµï¿½ï¿½ï¿½ï¿½ */
+	uint8_t Itemshigh;  /* ï¿½Ëµï¿½ï¿½ï¿½ï¿½ */
+	uint8_t index;      /* ï¿½Ëµï¿½ï¿½ï¿½Ç°item */
+	uint8_t count;      /* ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	uint8_t stackNum;   /* ï¿½Ëµï¿½Õ»ï¿½ï¿½Ð¡ ï¿½ï¿½MenuStackÎªï¿½ï¿½Î» */
+	MenuStack *stack;   /* ï¿½Ëµï¿½Õ» */
+	lkdMenuNode *Root;  /* ï¿½Ëµï¿½ï¿½ï¿½ï¿½Úµï¿½ */
+	void (* MenuDealWithFun)(void);/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 
-	/* µ±Ç°½Úµã»æ»­ÁÙÊ±±£´æ */
-	lkdCoord cx;        /* ÆðÊ¼×ø±ê */
+	/* ï¿½ï¿½Ç°ï¿½Úµï¿½æ»­ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ */
+	lkdCoord cx;        /* ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ */
 	lkdCoord cy;
-	lkdMenuNode *pDraw; /* »æ»­½Úµã */
-	uint8_t nodeNum;    /* µ±Ç°¸¸½ÚµãÏÂµÄ½ÚµãÊý */
-	uint8_t cNum;       /* Òª»æ»­µÄ½ÚµãÊý */
+	lkdMenuNode *pDraw; /* ï¿½æ»­ï¿½Úµï¿½ */
+	uint8_t nodeNum;    /* ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Úµï¿½ï¿½ÂµÄ½Úµï¿½ï¿½ï¿½ */
+	uint8_t cNum;       /* Òªï¿½æ»­ï¿½Ä½Úµï¿½ï¿½ï¿½ */
 }lkdMenu;
 
-/* ×ÖÌå¶ÔÆëÀàÐÍ */
+/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 typedef enum{
-	FONT_LEFT,  /* ×ó¶ÔÆë */
-	FONT_MID,   /* ¾ÓÖÐ */
-	FONT_RIGHT,	/* ÓÒ¶ÔÆë */
+	FONT_LEFT,  /* ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	FONT_MID,   /* ï¿½ï¿½ï¿½ï¿½ */
+	FONT_RIGHT,	/* ï¿½Ò¶ï¿½ï¿½ï¿½ */
 }FontFlag;
 
-/* ×ÖÌå½á¹¹ */
+/* ï¿½ï¿½ï¿½ï¿½á¹¹ */
 typedef struct{
-	uint8_t *name;      /* ×ÖÌåÃû³Æ */
-	uint8_t swide;      /* ASCIIÈ¡Ä£¿í */
-	uint8_t shigh;      /* ASCIIÈ¡Ä£¸ß */
-	uint8_t dwide;      /* ºº×ÖÈ¡Ä£¿í */
-	uint8_t dhigh;      /* ºº×ÖÈ¡Ä£¸ß */
-	uint8_t *pZmBuff;   /* ´æ·Åµ¥¸ö×ÖÄ£buff */
-	/* ASCIIÈ¡Ä£º¯Êý */
+	uint8_t *name;      /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	uint8_t swide;      /* ASCIIÈ¡Ä£ï¿½ï¿½ */
+	uint8_t shigh;      /* ASCIIÈ¡Ä£ï¿½ï¿½ */
+	uint8_t dwide;      /* ï¿½ï¿½ï¿½ï¿½È¡Ä£ï¿½ï¿½ */
+	uint8_t dhigh;      /* ï¿½ï¿½ï¿½ï¿½È¡Ä£ï¿½ï¿½ */
+	uint8_t *pZmBuff;   /* ï¿½ï¿½Åµï¿½ï¿½ï¿½ï¿½ï¿½Ä£buff */
+	/* ASCIIÈ¡Ä£ï¿½ï¿½ï¿½ï¿½ */
 	uint8_t (*getSfont)(uint8_t code1, uint8_t *pBuff);
-	/* ºº×ÖÈ¡Ä£º¯Êý */
+	/* ï¿½ï¿½ï¿½ï¿½È¡Ä£ï¿½ï¿½ï¿½ï¿½ */
 	uint8_t (*getDfont)(uint8_t code1, uint8_t code2,uint8_t *pBuff);
 }lkdFont;
 
-/* ÎÄ±¾ÐÅÏ¢ */
+/* ï¿½Ä±ï¿½ï¿½ï¿½Ï¢ */
 typedef struct{
-	lkdCoord x;         /* ×ø±ê */
+	lkdCoord x;         /* ï¿½ï¿½ï¿½ï¿½ */
 	lkdCoord y;
 	uint16_t wide;
 	uint16_t high;
 	uint16_t beginOffset;
-	uint8_t wInterval;  /* ¿í¶È¼ä¸ô */
-	uint8_t hInterval;  /* ¸ß¶È¼ä¸ô */
-	uint8_t flag;       /* 0 Õý³£ÏÔÊ¾ 1·´ÏÔ */
+	uint8_t wInterval;  /* ï¿½ï¿½È¼ï¿½ï¿½ */
+	uint8_t hInterval;  /* ï¿½ß¶È¼ï¿½ï¿½ */
+	uint8_t flag;       /* 0 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ 1ï¿½ï¿½ï¿½ï¿½ */
 }fontTextInfo;
 
 #endif /* __LKDGUITYPEDEF_H */

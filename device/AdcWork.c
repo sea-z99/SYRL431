@@ -25,8 +25,8 @@ void adc_init(void)
    {
        LOG_D("adc sample run failed! can't find %s device!\n", ADC_DEV_NAME);
    }
-   rt_adc_enable(adc_dev, 5);
-   rt_adc_enable(adc_dev, 6);
+   rt_adc_enable(adc_dev, 2);
+   rt_adc_enable(adc_dev, 3);
    rt_adc_enable(adc_dev, 16);
 }
 MSH_CMD_EXPORT(adc_init,adc_init);
@@ -36,17 +36,17 @@ void ADC_Pin_Init(void)
 
     __HAL_RCC_ADC_CLK_ENABLE();
 
-    __HAL_RCC_GPIOA_CLK_ENABLE();
+    __HAL_RCC_GPIOC_CLK_ENABLE();
     __HAL_RCC_GPIOB_CLK_ENABLE();
     /**ADC1 GPIO Configuration
-    PA0     ------> ADC1_IN5
-    PA1     ------> ADC1_IN6
+    PC1     ------> ADC1_IN2
+    PC2     ------> ADC1_IN3
     PB1     ------> ADC1_IN16
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
+    GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_2;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG_ADC_CONTROL;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
     GPIO_InitStruct.Pin = GPIO_PIN_1;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG_ADC_CONTROL;
@@ -58,14 +58,12 @@ void ADC_Pin_Init(void)
 void ADC_Pin_DeInit(void)
 {
     __HAL_RCC_ADC_CLK_DISABLE();
-    rt_pin_mode(ADC_BAT, PIN_MODE_OUTPUT);
-    rt_pin_write(ADC_BAT,0);
-    rt_pin_mode(ADC_DC, PIN_MODE_OUTPUT);
-    rt_pin_write(ADC_DC,0);
-    rt_pin_mode(ADC_TDS, PIN_MODE_OUTPUT);
-    rt_pin_write(ADC_TDS,0);
-    rt_pin_mode(ADC_MOTO, PIN_MODE_OUTPUT);
-    rt_pin_write(ADC_MOTO,0);
+    rt_pin_mode(ADC_BAT, PIN_MODE_INPUT);
+    //rt_pin_write(ADC_BAT,0);
+    rt_pin_mode(ADC_DC, PIN_MODE_INPUT);
+    //rt_pin_write(ADC_DC,0);
+    rt_pin_mode(ADC_MOTO, PIN_MODE_INPUT);
+    //rt_pin_write(ADC_MOTO,0);
 }
 uint32_t Get_Adc_Value(uint8_t channel)
 {
@@ -76,11 +74,11 @@ uint32_t Get_Adc_Value(uint8_t channel)
    for(uint8_t i=0;i<1;i++)
    {
        value = rt_adc_read(adc_dev, channel);
-       rt_kprintf("the value is :%d \r\n", value);
+       //rt_kprintf("the value is :%d \r\n", value);
        sum+=value;
    }
    //sum = (int)(sum * REFER_VOLTAGE / CONVERT_BITS);
-   LOG_D("the voltage is :%d \r\n", sum);
+   //LOG_D("the voltage is :%d \r\n", sum);
 
    /* 关闭通道 */
    //rt_adc_disable(adc_dev, channel);
@@ -93,40 +91,25 @@ void testadc(void)
 MSH_CMD_EXPORT(testadc,testadc);
 uint32_t Get_Tds_Value(void)
 {
-//    uint32_t value,sum=0;
-//    adc_get_offset();
-//    for(uint8_t i=0;i<10;i++)
-//    {
-//            wm_adc_convert(adc_dc,2,&value);
-//            sum+=value;
-//    }
-//    sum = sum*0.1;
-//    sum = ((sum-8192.0)/8192*2.25/1.2 + 1.584)*1000;
-//    printf("TDS Value is %d\r\n",sum);
-//    return sum;
-//    //5.4ms/cm -->1055(test1)
-
     return 0;
 }
 MSH_CMD_EXPORT(Get_Tds_Value,Get_Tds_Value);
 uint8_t Get_DC_Level(void)
 {
     uint32_t value;
-	value  = Get_Adc_Value(5);
+	value  = Get_Adc_Value(2);
 	LOG_D("DC Value is %ld\r\n",value);
-    if(value>2000)return 1;
+    if(value>3000)return 1;
     else return 0;
 }
 MSH_CMD_EXPORT(Get_DC_Level,Get_DC_Level);
-uint8_t Get_Bat_Level(void)
+uint32_t Get_Bat_Value(void)
 {
     uint32_t value;
-    value  = Get_Adc_Value(6);
+    value  = Get_Adc_Value(3);
     LOG_D("BAT Value is %ld\r\n",value);
-    if(value>2000)return 1;
-    else return 0;
+    return value;
 }
-MSH_CMD_EXPORT(Get_Bat_Level,Get_Bat_Level);
 uint32_t Get_Moto_Value(void)
 {
     uint32_t value;

@@ -50,6 +50,11 @@ void RTC_Check(void)
 {
     rt_sem_release(RTC_Check_Sem);
 }
+void RTC_Clear(void)
+{
+    RTC_Reminder_Time = 0;
+    RTC_Automatic_Time = 0;
+}
 void RTC_Check_Callback(void *parameter)
 {
     while(1)
@@ -60,7 +65,7 @@ void RTC_Check_Callback(void *parameter)
             LOG_D("RTC Check For Two Timers\r\n");
             if(Reminder_Enable)
             {
-                if(RTC_Reminder_Time >= Reminder_Week*7*24+Reminder_Day)
+                if(RTC_Reminder_Time >= Reminder_Week*7*24+Reminder_Day*24)
                 {
                     RTC_Reminder_Time = 0;
                     RTC_Event_Flag = 1;
@@ -72,7 +77,7 @@ void RTC_Check_Callback(void *parameter)
             }
             if(Automatic_Enable)
             {
-                if(RTC_Automatic_Time >= Automatic_Week*7*24+Automatic_Day )
+                if(RTC_Automatic_Time >= Automatic_Week*7*24+Automatic_Day*24 )
                 {
                     RTC_Automatic_Time = 0;
                     RTC_Event_Flag = 1;
@@ -148,7 +153,7 @@ void RTC_AlarmConfig(void)
     salarmstructure.AlarmSubSecondMask = RTC_ALARMSUBSECONDMASK_ALL;
     salarmstructure.AlarmTime.TimeFormat = RTC_HOURFORMAT12_AM;
     salarmstructure.AlarmTime.Hours = 0;
-    salarmstructure.AlarmTime.Minutes = 0;
+    salarmstructure.AlarmTime.Minutes = 59;
     salarmstructure.AlarmTime.Seconds = 59;
     salarmstructure.AlarmTime.SubSeconds = 0;
 
@@ -202,6 +207,6 @@ void RTC_Init(void)
 MSH_CMD_EXPORT(RTC_Init,RTC_Init);
 void RTC_Alarm_IRQHandler(void)
 {
-  HAL_RTC_AlarmIRQHandler(&RtcHandle);
+    HAL_RTC_AlarmIRQHandler(&RtcHandle);
 }
 

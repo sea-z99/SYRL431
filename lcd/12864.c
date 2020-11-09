@@ -231,19 +231,19 @@ void OpenLcdDisplay(void)
 
 void LcdDeinit(void)
 {
-    rt_pin_mode(LCD_EN, PIN_MODE_INPUT);
+    rt_pin_mode(LCD_EN, PIN_MODE_OUTPUT);
     rt_pin_write(LCD_EN,0);
 }
 void CloseLcdVcc(void)
 {
     LCD_Flag = 3;
+    rt_pin_mode(LCD_EN, PIN_MODE_OUTPUT);
+    rt_pin_write(LCD_EN,0);
     rt_pin_write(LCD_CS,0);
     rt_pin_write(LCD_RST,0);
     rt_pin_mode(LCD_SDA, PIN_MODE_OUTPUT);
     rt_pin_write(LCD_SDA,0);
     rt_pin_write(LCD_CLK,0);
-    LcdDeinit();
-    EnterLowPower();
 }
 void CloseLcdBacklight(void)
 {

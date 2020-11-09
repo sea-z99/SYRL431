@@ -19,6 +19,8 @@
 #include "rtcwork.h"
 #include "LowPower.h"
 #include "FlashWork.h"
+#include "Battery.h"
+#include "TdsWork.h"
 
 #define DBG_TAG "main"
 #define DBG_LVL DBG_LOG
@@ -26,19 +28,28 @@
 
 int main(void)
 {
-    Flash_Init();
-    fal_init();
-    easyflash_init();
-    boot_time();
-    //RTC_Init();
     Led_Init();
+    if(flash_Init()==RT_EOK)
+    {
+        fal_init();
+        easyflash_init();
+        boot_time();
+        LOG_D("Storage Init Success\r\n");
+    }
+    else
+    {
+        LOG_D("Storage Init Fail\r\n");
+        //Green_Red_Blinky();
+    }
+    RTC_Init();
     button();
     adc_init();
     lcd();
     Moto_TaskUp();
+    BatterWatcher();
+    TDS__Uart_Init();
     while (1)
     {
-        //EnterLowPower();
         rt_thread_mdelay(1000);
     }
 

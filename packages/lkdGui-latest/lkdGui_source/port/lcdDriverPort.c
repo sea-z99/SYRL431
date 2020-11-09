@@ -4,9 +4,7 @@
 #include "lkdGui.h"
 #include "12864.h"
 
-static uint8_t  LCDBuffer[GUIXMAX][GUIYMAX];
 uint8_t x_to_page[GUIXMAX][8]={0};
-
 
 void GuiUpdateDisplayAll(void)
 {
@@ -23,6 +21,7 @@ void GuiUpdateDisplayAll(void)
 
 void GuiRangeUpdateDisplay(lkdCoord beginx, lkdCoord beginy,lkdCoord endx, lkdCoord endy)
 {
+
 }
 
 void GuiDrawPoint(lkdCoord x, lkdCoord y, lkdColour color)

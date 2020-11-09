@@ -18,6 +18,8 @@
 #include "LowPower.h"
 #include "TdsWork.h"
 #include "RtcWork.h"
+#include "12864.h"
+#include "lcd_display.h"
 
 #define DBG_TAG "LowPower"
 #define DBG_LVL DBG_LOG
@@ -48,18 +50,6 @@ void FlashInit(void)
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
     rt_pin_write(FLASH_EN,1);
-}
-void UsartInit(void)
-{
-    GPIO_InitTypeDef GPIO_InitStruct = {0};
-    GPIO_InitStruct.Alternate = 7;
-    GPIO_InitStruct.Pin = GPIO_PIN_9;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-    GPIO_InitStruct.Pin = GPIO_PIN_10;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 }
 void FlashDeInit(void)
 {
@@ -110,6 +100,8 @@ void BeforSleep(void)
     WifiDeInit();
     //TDS
     Tds_DeInit();
+    //LCD
+    CloseLcdVcc();
 }
 void AfterWake(void)
 {
@@ -122,30 +114,30 @@ void AfterWake(void)
     FlashInit();
     //ADC
     ADC_Pin_Init();
+    //TDS
+    Tds_Init();
+
 }
 extern void RTC_Alarm_IRQHandler(void);
 void LowPowerTimerStart(void);
 void EnterLowPower(void)
 {
-//    BeforSleep();
-//    Button_Wakeup_Flag=0;
-//    LOG_D("Goto Stop Mode With RTC Now\r\n");
-//    HAL_PWREx_EnterSTOP2Mode(PWR_STOPENTRY_WFI);
-//    SystemClock_Config();
-//    if(Button_Wakeup_Flag)
-//    {
-//        AfterWake();
-//        LOG_D("Button Wake Up Now\r\n");
-//    }
-//    else
-//    {
-//        AfterWake();
-//        LOG_D("RTC Wake Up Now\r\n");
-//        //RTC_Timer_Entry();
-//        //RTC_Check();
-//        //EnterLowPower();
-//        //LowPowerTimerStart();
-//    }
+    BeforSleep();
+    Button_Wakeup_Flag=0;
+    LOG_D("Goto Stop Mode With RTC Now\r\n");
+    HAL_PWREx_EnterSTOP2Mode(PWR_STOPENTRY_WFI);
+    SystemClock_Config();
+    if(Button_Wakeup_Flag)
+    {
+        AfterWake();
+        JumptoMainWin();
+        LOG_D("Button Wake Up Now\r\n");
+    }
+    else
+    {
+        AfterWake();
+        LOG_D("RTC Wake Up Now\r\n");
+    }
 }
 MSH_CMD_EXPORT(EnterLowPower,EnterLowPower);
 rt_timer_t LowPowerTimer=RT_NULL;
